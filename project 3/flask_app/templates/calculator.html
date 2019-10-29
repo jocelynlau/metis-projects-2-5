@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>My Webpage</title>
+</head>
+
+<body>
+  <form action="/calculator">
+
+    {% for inp in input_names %}
+        <br>
+        {{ inp }}
+        <br>
+        <input type="text" name="{{ inp }}" value="{{i_input[loop.index0]}}">
+    {% endfor %}
+    <br>
+    <input type="submit" value="Submit" method="get">
+
+  </form>
+<!--
+  <p>
+    prediction:
+    {% for p in prediction %}
+      <br>  {{p['name']}}:{{ 100*p['prob'] | round(1) }}%
+    {% endfor %}
+  </p>
+-->
+<br>
+<br>
+  <div id='tbldiv'>
+
+    <table>
+      <tr>
+        <th>Predicted</th>
+        <th>Actual</th>
+        <th>% of Total</th>
+        <th>Number</th>
+      </tr>
+      <tr>
+        <td>No show</td>
+        <td>No show</td>
+        <td>{{matrix[0]*100 | round(1)}}%</td>
+        <td>{{appts[0] | round(1)}}<td>
+      </tr>
+      <tr>
+        <td>No show</td>
+        <td>Attend</td>
+        <td>{{matrix[1]*100 | round(1)}}%</td>
+        <td>{{appts[1] | round(1)}}<td>
+      </tr>
+      <tr>
+        <td>Attend</td>
+        <td>No show</td>
+        <td>{{matrix[2]*100 | round(1)}}%</td>
+        <td>{{appts[2] | round(1)}}<td>
+      </tr>
+      <tr>
+        <td>Attend</td>
+        <td>Attend</td>
+        <td>{{matrix[3]*100 | round(1)}}%</td>
+        <td>{{appts[3] | round(1)}}<td>
+      </tr>
+    </table>
+
+  </div>
+<br>
+		<a href="/">Home</a>
+</body>
+
+</html>
