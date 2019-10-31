@@ -1,6 +1,6 @@
 import flask
 from flask import request
-from predictor_api import make_prediction, feature_names
+from predictor_api2 import make_prediction, site_dict
 from calculator_api import calculate_int, input_names, input_defaults
 
 # Initialize the app
@@ -23,24 +23,28 @@ def predict():
     # "form name (as set in template)" (key): "string in the textbox" (value)
     x_input, predictions = make_prediction(request.args)
     return flask.render_template('predictor.html', x_input=x_input,
-                                 feature_names=feature_names,
+                                 site_dict=site_dict,
                                  prediction=predictions)
 
 @app.route("/calculator", methods=["POST","GET"])
 def calculate():
-    i_input, matrix, appts = calculate_int(request.args)
+    i_input, matrix, appts, do_nothing, int_cost, cost_w_int, tot_cost_w_int = calculate_int(request.args)
     return flask.render_template('calculator.html',i_input=i_input,
                                  input_names=input_names,
                                  input_defaults=input_defaults,
                                  matrix = matrix,
-                                 appts = appts)
+                                 appts = appts,
+                                 do_nothing = do_nothing,
+                                 int_cost = int_cost,
+                                 cost_w_int = cost_w_int,
+                                 tot_cost_w_int = tot_cost_w_int)
 
 # Start the server, continuously listen to requests.
 # We'll have a running web app!
 
 if __name__=="__main__":
     # For local development:
-    #app.run(debug=True)
+    app.run(debug=True)
     # For public web serving:
     #app.run(host='0.0.0.0')
     app.run()

@@ -2,10 +2,49 @@
 <html lang="en">
 
 <head>
-  <title>My Webpage</title>
+  <title>Appointment Management Budget Calculator</title>
+  <style>
+  body {background-color: #badfe7; font-family:Verdana}
+  h1 {color:#388087}
+  h3 {color:#2b2a2a}
+  p {color:#2b2a2a}
+  </style>
 </head>
 
 <body>
+	<h1>Appointment Management Cost Impact Calculator</h1>
+  <h3>Introduction</h3>
+  <p>
+    <b>Purpose:</b> To estimate the cost impact of an intervention to improve
+    appointment attendance by converting predicted missed appointments
+    into attended appointments. This calculator takes a group of appointments,
+    estimates the predicted no-show rates, and calculates financial gain or
+    loss based on the cost of the appointment and intervention.
+    <br><br>
+    <b>Assumptions:</b>
+      <ul><li type="disc">The intervention used here assumes 100% effectiveness. The
+      intervention is determined by the user (e.g. a telephone reminder
+      system).</li></ul>
+    <b>Methods:</b>
+      <ul><li type="disc">The calculated actual no-show rate is based on historical trends.</li></ul>
+      <ul><li type="disc">The predicted no-show rate is based on the back-end model</li></ul>
+    <b>Inputs:</b>
+      <ul><li type="disc">Total Number of Appointments: The number of appointments the clinic
+      expects to see</li></ul>
+      <ul><li type="disc">Intervention Cost ($): The per-appointment cost of the proposed
+        intervention (i.e., the cost to convert one missed appointment to an
+        attended appointment).</li></ul>
+      <ul><li type="disc">Appointment Cost ($): The dollar value of one appointment (i.e.,
+        the amount the clinic receives for each attended appointment or loses
+        for each missed appointment)</li></ul>
+      <ul><li type="disc">Threshold: The tolerance level for accurately predicting missed
+        appointments. Must be between 0 and 1. A value closer to 0 indicates
+         higher recall and lower precision. A value closer to 1 indicates lower
+         recall and higher precision. See figure below for the precision-recall
+       tradeoff over possible threshold values.</li></ul>
+  </p>
+  <br><hr>
+  <h3>Inputs</h3>
   <form action="/calculator">
 
     {% for inp in input_names %}
@@ -27,42 +66,124 @@
   </p>
 -->
 <br>
-<br>
   <div id='tbldiv'>
-
-    <table>
-      <tr>
-        <th>Predicted</th>
-        <th>Actual</th>
-        <th>% of Total</th>
-        <th>Number</th>
+    <h3>Base Case (Do Nothing) Scenario:</h3>
+    <table cellspacing=1 cellpadding=2>
+      <tr bgcolor=#6fb3b8>
+        <th>Appointment Type</th>
+        <th>Number of Appointments</th>
+        <th>Total Gain/Loss ($)<sup>1</sup></th>
       </tr>
       <tr>
-        <td>No show</td>
-        <td>No show</td>
-        <td>{{matrix[0]*100 | round(1)}}%</td>
-        <td>{{appts[0] | round(1)}}<td>
+        <td bgcolor=#c2edce>No show</td>
+        <td bgcolor=#f6f6f2>{{appts[0]+appts[2]}}</td>
+        <td bgcolor=#f6f6f2>-{{do_nothing[0]}}<td>
       </tr>
       <tr>
-        <td>No show</td>
-        <td>Attend</td>
-        <td>{{matrix[1]*100 | round(1)}}%</td>
-        <td>{{appts[1] | round(1)}}<td>
+        <td bgcolor=#c2edce>Attend</td>
+        <td bgcolor=#f6f6f2>{{appts[1]+appts[3]}}</td>
+        <td bgcolor=#f6f6f2>{{do_nothing[1]}}<td>
       </tr>
       <tr>
-        <td>Attend</td>
-        <td>No show</td>
-        <td>{{matrix[2]*100 | round(1)}}%</td>
-        <td>{{appts[2] | round(1)}}<td>
-      </tr>
-      <tr>
-        <td>Attend</td>
-        <td>Attend</td>
-        <td>{{matrix[3]*100 | round(1)}}%</td>
-        <td>{{appts[3] | round(1)}}<td>
+        <td bgcolor=#c2edce><b>Total</b></td>
+        <td bgcolor=#f6f6f2><b>{{appts[0]+appts[1]+appts[2]+appts[3]}}</b></td>
+        <td bgcolor=#f6f6f2><b>{{do_nothing[2]}}</b><td>
       </tr>
     </table>
+    <p><small><sup>1</sup>Number of Appointments x Appointment Cost</small></p>
 
+    <h3>Intervention Scenario:</h3>
+    <table cellspacing=1 cellpadding=2>
+      <tr bgcolor=#6fb3b8>
+        <th align='left'>
+          <div>Predicted</div>
+          <div>Appointment Type</div>
+        </th>
+        <th align='left'>
+          <div>Actual</div>
+          <div>Appointment Type</div>
+        </th>
+        <th align='right'>% of Total</th>
+        <th align='right'>
+          <div>Number</div>
+          <div>of Appointments</div>
+        </th>
+        <th align='right'>
+          Intervention Cost ($)<sup>1</sup>
+        </th>
+        <th align='right'>
+          Appointment Gain/Loss ($)<sup>2</sup>
+        </th>
+        <th align='right'>Total Gain/Loss ($)<sup>3</sup></th>
+      </tr>
+      <tr>
+        <td bgcolor=#c2edce>No show</td>
+        <td bgcolor=#c2edce>No show</td>
+        <td bgcolor=#f6f6f2 align='right'>{{matrix[0]*100 | round(1)}}%</td>
+        <td bgcolor=#f6f6f2 align='right'>{{appts[0] | round(0)}}</td>
+        <td bgcolor=#f6f6f2 align='right'>-{{int_cost[0] | round(2)}}</td>
+        <td bgcolor=#f6f6f2 align='right'>{{cost_w_int[0] | round(2)}}</td>
+        <td bgcolor=#f6f6f2 align='right'>{{tot_cost_w_int[0] | round(2)}}</td>
+      </tr>
+      <tr>
+        <td bgcolor=#c2edce>No show</td>
+        <td bgcolor=#c2edce>Attend</td>
+        <td bgcolor=#f6f6f2 align='right'>{{matrix[1]*100 | round(1)}}%</td>
+        <td bgcolor=#f6f6f2 align='right'>{{appts[1] | round(0)}}</td>
+        <td bgcolor=#f6f6f2 align='right'>-{{int_cost[1] | round(2)}}</td>
+        <td bgcolor=#f6f6f2 align='right'>{{cost_w_int[1] | round(2)}}</td>
+        <td bgcolor=#f6f6f2 align='right'>{{tot_cost_w_int[1] | round(2)}}</td>
+      </tr>
+      <tr>
+        <td bgcolor=#c2edce>Attend</td>
+        <td bgcolor=#c2edce>No show</td>
+        <td bgcolor=#f6f6f2 align='right'>{{matrix[2]*100 | round(1)}}%</td>
+        <td bgcolor=#f6f6f2 align='right'>{{appts[2] | round(0)}}</td>
+        <td bgcolor=#f6f6f2 ></td>
+        <td bgcolor=#f6f6f2 align='right'>-{{cost_w_int[2] | round(2)}}</td>
+        <td bgcolor=#f6f6f2 align='right'>{{tot_cost_w_int[2] | round(2)}}</td>
+      </tr>
+      <tr>
+        <td bgcolor=#c2edce>Attend</td>
+        <td bgcolor=#c2edce>Attend</td>
+        <td bgcolor=#f6f6f2 align='right'>{{matrix[3]*100 | round(1)}}%</td>
+        <td bgcolor=#f6f6f2 align='right'>{{appts[3] | round(0)}}</td>
+        <td bgcolor=#f6f6f2 ></td>
+        <td bgcolor=#f6f6f2 align='right'>{{cost_w_int[3] | round(2)}}</td>
+        <td bgcolor=#f6f6f2 align='right'>{{tot_cost_w_int[3] | round(2)}}</td>
+      </tr>
+      <tr>
+        <td bgcolor=#c2edce><b>Total</b></td>
+        <td bgcolor=#c2edce></td>
+        <td bgcolor=#f6f6f2 align='right'><b>{{matrix[4]*100 | round(1)}}%</br></td>
+        <td bgcolor=#f6f6f2 align='right'>{{appts[4] | round(0)}}</td>
+        <td bgcolor=#f6f6f2 align='right'><b>-{{int_cost[2] | round(2)}}</br></td>
+        <td bgcolor=#f6f6f2 align='right'><b>{{cost_w_int[4] | round(2)}}</br></td>
+        <td bgcolor=#f6f6f2 align='right'><b>{{tot_cost_w_int[4] | round(2)}}</br></td>
+      </tr>
+    </table>
+    <p>
+      <small><sup>1</sup>Number of Predicted Appointments x Intervention Cost</small>
+      <br>
+      <small><sup>2</sup>Number of Appointments x Appointment Cost</small>
+      <br>
+      <small><sup>3</sup>Appointment Gain/Loss - Intervention Cost</small>
+    </p>
+
+    <table cellspacing=1 cellpadding=2>
+      <tr>
+        <td bgcolor=#c2edce>Total $ in the Base Case Scenario:</td>
+        <td bgcolor=#f6f6f2>{{do_nothing[2]}}</td>
+      </tr>
+      <tr>
+        <td bgcolor=#c2edce>Total $ in the Intervention Scenario</td>
+        <td bgcolor=#f6f6f2>{{tot_cost_w_int[4] | round(2)}}</td>
+      </tr>
+      <tr>
+        <td bgcolor=#c2edce><b>$ Difference</b></td>
+        <td bgcolor=#f6f6f2><b>{{tot_cost_w_int[4]-do_nothing[2] | round(2)}}</b></td>
+      </tr>
+    </table>
   </div>
 <br>
 		<a href="/">Home</a>
