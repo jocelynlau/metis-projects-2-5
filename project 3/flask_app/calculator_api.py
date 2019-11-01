@@ -11,7 +11,7 @@ import pickle
 import numpy as np
 from sklearn.metrics import confusion_matrix
 
-with open("static/models/appt_model2.pkl", "rb") as f:
+with open("static/models/appt_model.pkl", "rb") as f:
     appt_model = pickle.load(f)
 with open("static/models/X_test.pickle", "rb") as f:
     X_test = pickle.load(f)

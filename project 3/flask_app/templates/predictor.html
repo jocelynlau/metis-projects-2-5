@@ -6,34 +6,79 @@
   <style>
   body {background-color: #badfe7; font-family:Verdana}
   h1 {color:#388087}
-  h3 {color:#2b2a2a}
-  p {color:#2b2a2a}
+  h3 {color:#2b2a2a; font-size:15px}
+  p {color:#2b2a2a; font-size:12px}
   </style>
 </head>
 
 <body>
   <h1>Predict Missed Appointments</h1>
-  <p>Output the probability that a scheduled appointment will be missed.
+  <h3>Output the probability that a scheduled appointment will be missed
+    by filling out the form below with the patient's information.</h3>
   <form action="/predict">
 
-    {% for f in site_dict %}
+<!--{% for f in site_dict %}
         <br>
         {{ f }}
         <br>
         <input type="text" name="{{ f }}" value="{{x_input[loop.index0]}}">
     {% endfor %}
-    <br>
+-->
+    <p>Appointment Date (MM/DD/YYYY):</p>
+    <input type="text" name="Appointment Date" value={{x_input[10]}}>
+    <p>Scheduling Date (MM/DD/YYYY):</p>
+    <input type="text" name="Scheduling Date" value={{x_input[9]}}>
+    <p>Appointment is a Reschedule:</p>
+    <select name="Reschedule">
+      <option value=0 {% if x_input[5]=='0' %}selected{% endif %}>No</option>
+      <option value=1 {% if x_input[5]=='1' %}selected{% endif %}>Yes</option>
+    </select>
+    <p>Appointment is a Follow-Up:</p>
+    <select name="Follow-Up">
+      <option value=0 {% if x_input[6]=='0' %}selected{% endif %}>No</option>
+      <option value=1 {% if x_input[6]=='1' %}selected{% endif %}>Yes</option>
+    </select>
+    <p>Number of Prior Appointments:</p>
+    <input type="text" name="Prior Appointment Count" value={{x_input[7]}}>
+    <p>Number of Prior Missed Appointments:</p>
+    <input type="text" name="Prior No-Show Count" value={{x_input[8]}}>
+    <p>Age:</p>
+    <input type="text" name="Age" value={{x_input[0]}}>
+    <p>Neighborhood:</p>
+    <select name="Neighborhood">
+      {% for n in neighborhoods %}
+      <option value={{n}}>{{ n }}</option>
+      {% endfor %}
+    </select>
+    <p>On Public Assistance:</p>
+    <select name="Public Assistance">
+      <option value=0 {% if x_input[1]=='0' %}selected{% endif %}>No</option>
+      <option value=1 {% if x_input[1]=='1' %}selected{% endif %}>Yes</option>
+    </select>
+    <p>Diagnosed with Alcoholism:</p>
+    <select name="Alcoholism">
+      <option value=0 {% if x_input[2]=='0' %}selected{% endif %}>No</option>
+      <option value=1 {% if x_input[2]=='1' %}selected{% endif %}>Yes</option>
+    </select>
+    <p>Receives SMS:</p>
+    <select name="Receives SMS">
+      <option value=0 {% if x_input[3]=='0' %}selected{% endif %}>No</option>
+      <option value=1 {% if x_input[3]=='1' %}selected{% endif %}>Yes</option>
+    </select>
+    <br><br>
     <input type="submit" value="Submit" method="get">
-
-
-
   </form>
 
   <p>
-    prediction:
-    {% for p in prediction %}
-      <br>  {{p['name']}}:{{ 100*p['prob'] | round(1) }}%
+<!--    <h3>Submitted Inputs:</h3>
+    {% for x in x_input %}
+      <br>  {{site_dict[loop.index0]}}:{{x}}
     {% endfor %}
+-->
+    <br>
+    <h3>Predicted Probability of Missing the Appointment:</h3>
+    {{prediction*100}}%
+
   </p>
   <br>
   <br>

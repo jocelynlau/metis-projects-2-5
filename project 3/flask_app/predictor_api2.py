@@ -18,10 +18,12 @@ with open("static/models/appt_model.pkl", "rb") as f:
     appt_model = pickle.load(f)
 
 feature_names = appt_model.feature_names
-site_dict = ['Age','Gender','Scholarship','Hypertension','Diabetes','Alcoholism','Handicap','Receives SMS',
+neighborhoods = appt_model.neighborhood_names
+
+site_dict = ['Age','Public Assistance','Alcoholism','Receives SMS',
             'Neighborhood','Reschedule','Follow-Up','Prior Appointment Count','Prior No-Show Count',
             'Scheduling Date','Appointment Date']
-site_default = [0,0,0,0,0,0,0,0,0,0,0,0,0,'05/01/2019','05/30/2019']
+site_default = [0,0,0,0,0,0,0,0,0,'11/01/2019','11/15/2019']
 
 def make_prediction(feature_dict):
     """
@@ -41,16 +43,11 @@ def make_prediction(feature_dict):
     ]
 
     #initialize new datapoint and map to actual feature names
-    a = np.array([[0]]*86)
+    a = np.array([[0]]*82)
     a = pd.DataFrame(a.T,columns=feature_names)
     a['Age2'] = feature_dict.get('Age',0)
-    if feature_dict.get('Gender')=='Male':
-        a['Gender_M'] = 1
-    a['Scholarship'] = feature_dict.get('Scholarship',0)
-    a['Hipertension'] = feature_dict.get('Hypertension',0)
-    a['Diabetes'] = feature_dict.get('Diabetes',0)
+    a['Scholarship'] = feature_dict.get('Public Assistance',0)
     a['Alcoholism'] = feature_dict.get('Alcoholism',0)
-    a['Handcap_bin'] = feature_dict.get('Handicap',0)
     a['SMS_received'] = feature_dict.get('Receives SMS',0)
     a['Reschedule'] = feature_dict.get('Reschedule',0)
     a['Follow_up'] = feature_dict.get('Follow-Up',0)
@@ -59,7 +56,7 @@ def make_prediction(feature_dict):
     #neighborhood
     a['Reschedule'] = feature_dict.get('Reschedule',0)
     #schedule day of week
-    sched_weekday = dt.datetime.weekday(dt.datetime.strptime(feature_dict.get('Scheduling Date','05/01/2019'), '%m/%d/%Y'))
+    sched_weekday = dt.datetime.weekday(dt.datetime.strptime(feature_dict.get('Scheduling Date','11/01/2019'), '%m/%d/%Y'))
     if sched_weekday==2:
         a['SchedDayofWeek_Tuesday']=1
     elif sched_weekday==3:
@@ -71,7 +68,7 @@ def make_prediction(feature_dict):
     elif sched_weekday==6:
         a['SchedDayofWeek_Saturday']=1
     #appointment day of week
-    appt_weekday = dt.datetime.weekday(dt.datetime.strptime(feature_dict.get('Appointment Date','05/30/2019'), '%m/%d/%Y'))
+    appt_weekday = dt.datetime.weekday(dt.datetime.strptime(feature_dict.get('Appointment Date','11/15/2019'), '%m/%d/%Y'))
     if appt_weekday==2:
         a['ApptDayofWeek_Tuesday']=1
     elif appt_weekday==3:
@@ -84,9 +81,10 @@ def make_prediction(feature_dict):
     a['DayDiff2'] = min((dt.datetime.strptime(feature_dict.get('Appointment Date','05/30/2019'), '%m/%d/%Y')-dt.datetime.strptime(feature_dict.get('Schedule Date','05/01/2019'), '%m/%d/%Y')).days,60)
 
     pred_probs = appt_model.predict_proba(a.values).flat
-
-    probs = [{'name': appt_model.target_names[index], 'prob': round(pred_probs[index],2)}
-             for index in np.argsort(pred_probs)[::-1]]
+    probs = round(pred_probs[1],2)
+    # probs = [{'name': appt_model.target_names[index], 'prob': round(pred_probs[index],2)}
+    #          # for index in np.array(pred_probs)[::-1]]
+    #          for index in np.argsort(pred_probs)[::-1]]
 
     return (x_input, probs)
 
