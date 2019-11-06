@@ -3,7 +3,7 @@ Jocelyn Lau
 11/6/2019
 
 
-1. Original HTML flask app: https://github.com/jocelynlau/metis-projects-2-5/tree/master/project%203/flask_app
+1. [Original HTML flask app](https://github.com/jocelynlau/metis-projects-2-5/tree/master/project%203/flask_app)
 
 2. [Startbootstrap.com](https://startbootstrap.com/)
 - Choose and download a template file
@@ -17,7 +17,8 @@ Jocelyn Lau
 - static
     - all other bootstrap files
 
-4. Update bootstrap files accordingly
+4. [Boostrapped flask app](
+Update bootstrap files accordingly
 - HTML files:
     - Use the templates and insert your basic HTML code in there
     - Update file paths
@@ -33,6 +34,8 @@ Windows:
 - Finder to bootstrapped flask app
 - local browser path
 - Bootstrap template
+    - index.html
+    - blank_page.html
 - Original HTML and python files
 - Updated HTML and python files
 
