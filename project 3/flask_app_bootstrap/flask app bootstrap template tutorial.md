@@ -17,7 +17,7 @@ Jocelyn Lau
 - static
     - all other bootstrap files
 
-4. [Boostrapped flask app](
+4. [Boostrapped flask app](https://github.com/jocelynlau/metis-projects-2-5/tree/master/project%203/flask_app_bootstrap)
 Update bootstrap files accordingly
 - HTML files:
     - Use the templates and insert your basic HTML code in there
