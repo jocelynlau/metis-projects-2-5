@@ -1,6 +1,6 @@
 import flask
 from flask import request
-from predictor_api2 import make_prediction, site_dict
+from predictor_api2 import make_prediction, site_dict, neighborhoods
 from calculator_api import calculate_int, input_names, input_defaults
 
 # Initialize the app
@@ -24,7 +24,8 @@ def predict():
     x_input, predictions = make_prediction(request.args)
     return flask.render_template('predictor.html', x_input=x_input,
                                  site_dict=site_dict,
-                                 prediction=predictions)
+                                 prediction=predictions,
+                                 neighborhoods=neighborhoods)
 
 @app.route("/calculator", methods=["POST","GET"])
 def calculate():
