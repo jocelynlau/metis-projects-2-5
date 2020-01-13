@@ -13,7 +13,6 @@ Heroku (web hosting)
 Modeling: XGBoost<br>
 (other models compared and not used: logistic regression, random forests, ensembling)
 #### App:
-[Flask App: Medical Appointment Management](http://med-appt-mgmt.herokuapp.com/)<br>
+[Flask App: Medical Appointment Management](http://med-appt-mgmt.herokuapp.com/)
 
-<br>
 [Presentation](https://github.com/jocelynlau/metis-projects-2-5/blob/master/project%203/presentation/project%203_%20Improving%20Medical%20Appointment%20Attendance.pdf)

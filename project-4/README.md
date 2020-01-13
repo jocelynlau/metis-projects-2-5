@@ -13,7 +13,6 @@ NLP: stemming, lemmatization, TF-IDF, sentiment analysis<br>
 Topic modeling: NMF (other models attempted and not used: LSA)<br>
 Recommendation algorithm: cosine similarity<br>
 #### Data Visualization:
-Topic modeling: pyLDAvis<br>
+Topic modeling: pyLDAvis
 
-<br>
 [Presentation](https://github.com/jocelynlau/metis-projects-2-5/blob/master/project-4/presentation/project%204_%20Skincare%20Recommendations%20for%20Busy%20People.pdf)
