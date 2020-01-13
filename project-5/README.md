@@ -11,8 +11,8 @@ Python (Numpy, Pandas, statsmodel SARIMAX)
 #### Methods:
 Time-series: SARIMAX (seasonal ARIMA with exogenous features)
 #### Data Visualization:
-Matplotlib
-Tableau
+Matplotlib<br>
+Tableau<br>
 
 <br>
 [Presentation](https://github.com/jocelynlau/metis-projects-2-5/blob/master/project-5/presentation/project%205_%20Solar%20Energy%20Forecasting.pdf)

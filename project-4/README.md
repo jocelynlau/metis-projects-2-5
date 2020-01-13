@@ -6,14 +6,14 @@ The online community of skincare enthusiasts is large and vocal, but many people
 [Read More on Medium](https://medium.com/jocelynlau/project-4-skincare-recommendations-for-busy-people-distilling-reviews-with-nlp-and-topic-dfc1047322c9)
 
 #### Tools:
-MongoDB
+MongoDB<br>
 Python (Numpy, Pandas, regex, NMF, VADER)
 #### Methods:
-NLP: stemming, lemmatization, TF-IDF, sentiment analysis
-Topic modeling: NMF (other models attempted and not used: LSA)
-Recommendation algorithm: cosine similarity
+NLP: stemming, lemmatization, TF-IDF, sentiment analysis<br>
+Topic modeling: NMF (other models attempted and not used: LSA)<br>
+Recommendation algorithm: cosine similarity<br>
 #### Data Visualization:
-Topic modeling: pyLDAvis
+Topic modeling: pyLDAvis<br>
 
 <br>
 [Presentation](https://github.com/jocelynlau/metis-projects-2-5/blob/master/project-4/presentation/project%204_%20Skincare%20Recommendations%20for%20Busy%20People.pdf)
